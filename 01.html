@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>基本</title>
+<style>
+.spacer {
+  height: 800px;
+}
+.parallax-window {
+  background-position: center bottom;
+  background-size: cover;
+  padding-top: 30%;
+}
+.parallax1 {
+  background-image: url(001.jpg);
+}
+#trigger {
+  position: absolute;
+}
+</style>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js"></script><!-- TweenMaxクラス使用のため必須 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/SuperScrollorama/1.0.3/jquery.superscrollorama.min.js"></script>
+<script>
+$(function () {
+  /**
+   * 画面下端からパララックス効果を実行するため、
+   * トリガー要素の座標を設定する。
+   */
+  var window_height = window.innerHeight;
+  var target_offset = $(".parallax1").offset();
+  var diff = target_offset.top - window_height;
+  if (diff < 0) {
+    diff = 0;
+  }
+  $("#trigger").offset({top: diff});
+  var trigger_offset = $("#trigger").offset();
+
+  /**
+   * 対象要素の変形を記述する
+   */
+  var controller = $.superscrollorama({
+    triggerAtCenter: false
+  });
+  controller.addTween(
+    "#trigger",
+    TweenMax.to($(".parallax1"), 0.1, {css: {backgroundPosition: "center top"}}),
+    window.innerHeight + document.querySelector(".parallax1").clientHeight
+  );
+});
+</script>
+</head>
+<body>
+<div id="trigger"></div>
+<h1>基本</h1>
+<div class="spacer"></div>
+<div class="parallax-window parallax1"></div>
+<div class="spacer"></div>
+</body>
+</html>
